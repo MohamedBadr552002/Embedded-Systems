@@ -1,29 +1,24 @@
-ENTRY(reset)
+/*Linker Script CortexM3 */
+
 
 MEMORY
 {
-  Mem (rwx) : ORIGIN = 0x00000000, LENGTH = 64M
+    flash (RX) : ORIGIN = 0x08000000 ,  LENGTH = 128K
+    sram (RWX) : ORIGIN = 0x20000000 ,  LENGTH = 20K 
 }
 
 SECTIONS
 {
-    . = 0x10000;
-    .startup . :
-    {
-      startup.o(.text)
-    }> Mem
-    .text :
-    {
-      *(.text) *(.rodata)
-    }> Mem
-    .data :
-    {
-      *(.data)
-    }> Mem
-    .bss :
-    {
-      *(.bss) *(COMMON)
-    }> Mem
-    .= . + 0x1000;
-    stack_top = . ;
+    .text :{
+        *(.vectors*)
+        *(.text*)
+        *(.rodata)
+    } > flash
+    .data :{
+        *(.data) 
+    } > flash
+
+    .bss :{
+        *(.bss) 
+    } > sram
 }

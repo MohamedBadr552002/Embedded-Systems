@@ -1,41 +1,29 @@
 
-typedef volatile unsigned int vuint32_t;
+//CORTEX_M4
 
-#include <stdint.h>
+#define SYSCTL_RCGC2_R    (*((volatile unsigned long *) 0x400FE108))
+#define GPIO_PORTF_DIR_R  (*((volatile unsigned long *) 0x40025400))
+#define GPIO_PORTF_DEN_R  (*((volatile unsigned long *) 0x4002551C))
+#define GPIO_PORTF_DATA_R (*((volatile unsigned long *) 0x400253FC))
 
-#define RCC_BASE   0x40021000
-#define GPIOA_BASE 0x40010800
 
-#define RCC_APB2ENR  *(volatile uint32_t * )(RCC_BASE + 0x18)
-#define GPIOA_CRH    *(volatile uint32_t * )(GPIOA_BASE + 0x04)
-#define GPIOA_ODR    *(volatile uint32_t * )(GPIOA_BASE + 0x0c)
-
-typedef union {
-	vuint32_t all_fields ;
-	struct {
-		vuint32_t reversed :13;
-		vuint32_t pin_13 :1;
-	       }pin;
-}R_ODR_t;
-
-volatile R_ODR_t* R_ODR = (volatile R_ODR_t*)(GPIOA_BASE + 0x0c);
-
-int main(void)
+int main()
 {
-	RCC_APB2ENR |=1<<2;
-	GPIOA_CRH   &=0xFF0FFFFF;
-	GPIOA_CRH   |=0x00200000;
+	volatile unsigned long delay_count;
+	SYSCTL_RCGC2_R=0x20;
+	for(delay_count=0;delay_count>200;delay_count++);
+
+	GPIO_PORTF_DIR_R |=1<<3;
+	GPIO_PORTF_DEN_R |=1<<3;
+
 	while(1)
 	{
-	//	GPIOA_ODR |=1<<13; //set bit nu 13
-		R_ODR->pin.pin_13 = 1;
-		for(int i=0;i<=20000;i++);
-	//	GPIOA_ODR &=~(1<<13); //clear bit nu 13
-		R_ODR->pin.pin_13= 0 ;
-		for(int i=0;i<=20000;i++);
-		
-			
+	   GPIO_PORTF_DATA_R |=1<<3;  //set
+	   for(delay_count=0;delay_count>200000;delay_count++);
+	   GPIO_PORTF_DATA_R &= ~(1<<3); //reset
+	   for(delay_count=0;delay_count>200000;delay_count++);
 	}
 	
+
 	return 0;
 }

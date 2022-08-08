@@ -1,13 +1,13 @@
 
 CC=arm-none-eabi-
-CFLAGS= -mcpu=cortex-m3
+CFLAGS= -mcpu=cortex-m4
 INCS=-I .
 LIBS=
 SRC = $(wildcard *.c)
 OBJ = $(SRC:.c=.o)
 As = $(wildcard *.s)
 AsOBJ = $(As:.s=.o)
-project_name=learn
+project_name= CORTEX_M4
 
 all: $(project_name).bin
 	@echo "=======build is done ======"

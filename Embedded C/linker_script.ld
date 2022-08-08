@@ -1,10 +1,10 @@
-/*Linker Script CortexM3 */
+/*Linker Script CortexM4 */
 
 
 MEMORY
 {
-    flash (RX) : ORIGIN = 0x08000000 ,  LENGTH = 128K
-    sram (RWX) : ORIGIN = 0x20000000 ,  LENGTH = 20K 
+    flash (RX) : ORIGIN = 0x00000000 ,  LENGTH = 512M
+    sram (RWX) : ORIGIN = 0x20000000 ,  LENGTH = 512M
 }
 
 SECTIONS
@@ -13,12 +13,19 @@ SECTIONS
         *(.vectors*)
         *(.text*)
         *(.rodata)
+        _E_text = . ;
     } > flash
-    .data :{
+    .data : {
+        _S_DATA = . ;
         *(.data) 
-    } > flash
+        . = ALIGN(4) ;
+        _E_DATA = . ;
+
+    } > sram AT> flash
 
     .bss :{
-        *(.bss) 
+        _S_bss = . ;
+        *(.bss*) 
+        _E_bss = . ;
     } > sram
 }

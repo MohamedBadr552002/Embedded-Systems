@@ -1,6 +1,6 @@
 
 #include <stdint.h>
-#define STACK_Start_SP 0x20001000
+
 extern int main(void);
 
 
@@ -18,17 +18,21 @@ void Bus_Fault(void)           __attribute__ ((weak, alies ("Defualt_Handler")))
 void Usage_Fault_Handler(void) __attribute__ ((weak, alies ("Defualt_Handler")));;
 
 
+static unsigned long stack_top[265];
 
 
-uint32_t vectors[] __attribute__((section(".vectors")))={
-		   STACK_Start_SP,
-(uint32_t) &Rest_Handler,
-(uint32_t) &NMI_Handler,
-(uint32_t) &H_fault_Handler,
-(uint32_t) &MM_Fault_Handler,
-(uint32_t) &Bus_Fault,
-(uint32_t) &Usage_Fault_Handler
+void (* const g_p_fn_vector[]() __attribute__(section(".vectors")))=
+{
+	(void (*)()) ((unsigned long)stack_top + sizeof(stack_top)),
+	 &Rest_Handler,
+     &NMI_Handler,
+     &H_fault_Handler,
+     &MM_Fault_Handler,
+     &Bus_Fault,
+     &Usage_Fault_Handler
 };
+
+
 
 
 extern unsigned int _S_DATA ;

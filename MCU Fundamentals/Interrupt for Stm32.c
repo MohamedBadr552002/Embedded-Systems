@@ -50,15 +50,15 @@ void GPIO_init()
 int main()
 {
 
-    clock_init()
-    GPIO_init()
+    clock_init();
+    GPIO_init();
     //EXTI x configuration to portA0
-    AFIO_EXTICR1 |=(1<<0)
+    AFIO_EXTICR1 |=(1<<0);
     //enable EXTI line 0 (mask 1)
     EXTI_IMR |= (1<<0);
 
     // enable raising trigger
-    EXTI_RTSR |=(1<<0)
+    EXTI_RTSR |=(1<<0);
 
     //enable NVIC
     NVIC_EXTERN0 |=(1<<6);

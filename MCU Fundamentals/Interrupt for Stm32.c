@@ -72,6 +72,6 @@ void IQRhandler(void)
     GPIOA_ODR ^=(1<<13);
 
     //clear Pending register
-    EXTI_PR |=(1<<0)
+    EXTI_PR |=(1<<0);
 
 }

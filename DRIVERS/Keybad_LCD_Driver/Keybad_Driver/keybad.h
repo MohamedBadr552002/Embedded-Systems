@@ -28,7 +28,7 @@
 #define C3		7
 
 void KEYBAD_INIT(void);
-void KEYBAD_GETCHAR();
+char KEYBAD_GETCHAR();
 
 
 #endif /* KEYBAD_H_ */

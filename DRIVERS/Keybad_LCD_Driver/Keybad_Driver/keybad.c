@@ -17,7 +17,7 @@ void KEYBAD_INIT()
 	KEYBAD_PORT = 0xFF;
 }
 
-void KEYBAD_GETCHAR()
+char KEYBAD_GETCHAR()
 {
 	int i,j;
 	for(i =0 ;i<4  ; i++)

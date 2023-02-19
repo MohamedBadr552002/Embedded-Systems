@@ -1,5 +1,5 @@
 /*
- * keybad.c
+ * keypad.c
  *
  *  Created on: Feb 16, 2023
  *      Author: Mohamed
@@ -10,72 +10,72 @@
 
 GPIO_pinConfig_t *pin_cfg ;
 
-int KEYBAD_ROWS[] ={R0 ,R1 ,R2 ,R3};
-int KEYBAD_COLS[] ={C0 ,C1 ,C2 ,C3};
+int KEYPAD_ROWS[] ={R0 ,R1 ,R2 ,R3};
+int KEYPAD_COLS[] ={C0 ,C1 ,C2 ,C3};
 
-void KEYBAD_INIT()
+void KEYPAD_INIT()
 {
 	pin_cfg->GPIO_PIN_NUMBER = R0 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = R1 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = R2 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = R3 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = C0 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = C1 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = C2 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 	pin_cfg->GPIO_PIN_NUMBER = C3 ;
 	pin_cfg->GPIO_MODE = GPIO_MODE_OUTPUT_PP ;
 	pin_cfg->GPIO_OUTPUT_SPEED = GPIO_SPEED_10M ;
-	MCAL_GPIO_Init(KEYBAD_PORT, pin_cfg);
+	MCAL_GPIO_Init(KEYPAD_PORT, pin_cfg);
 
 
-	MCAL_GPIO_Writeport(KEYBAD_PORT, 0xFF);
+	MCAL_GPIO_Writeport(KEYPAD_PORT, 0xFF);
 }
 
-char KEYBAD_GETCHAR()
+char KEYPAD_GETCHAR()
 {
 	int i,j;
 	for(i =0 ;i<4  ; i++)
 	{
-		MCAL_GPIO_Writepin(KEYBAD_PORT, KEYBAD_COLS[0], GPIO_PIN_SET);
-		MCAL_GPIO_Writepin(KEYBAD_PORT, KEYBAD_COLS[1], GPIO_PIN_SET);
-		MCAL_GPIO_Writepin(KEYBAD_PORT, KEYBAD_COLS[2], GPIO_PIN_SET);
-		MCAL_GPIO_Writepin(KEYBAD_PORT, KEYBAD_COLS[3], GPIO_PIN_SET);
-		MCAL_GPIO_Writepin(KEYBAD_PORT, KEYBAD_COLS[i], GPIO_PIN_RESET);
+		MCAL_GPIO_Writepin(KEYPAD_PORT, KEYPAD_COLS[0], GPIO_PIN_SET);
+		MCAL_GPIO_Writepin(KEYPAD_PORT, KEYPAD_COLS[1], GPIO_PIN_SET);
+		MCAL_GPIO_Writepin(KEYPAD_PORT, KEYPAD_COLS[2], GPIO_PIN_SET);
+		MCAL_GPIO_Writepin(KEYPAD_PORT, KEYPAD_COLS[3], GPIO_PIN_SET);
+		MCAL_GPIO_Writepin(KEYPAD_PORT, KEYPAD_COLS[i], GPIO_PIN_RESET);
 		for(j=0 ; j<4 ;j++)
 		{
 
-			if(MCAL_GPIO_Readpin(KEYBAD_PORT, KEYBAD_ROWS[j]) == 0)
+			if(MCAL_GPIO_Readpin(KEYPAD_PORT, KEYPAD_ROWS[j]) == 0)
 			{
 
-				while (MCAL_GPIO_Readpin(KEYBAD_PORT, KEYBAD_ROWS[j]) == 0); //SINGLE PRESS
+				while (MCAL_GPIO_Readpin(KEYPAD_PORT, KEYPAD_ROWS[j]) == 0); //SINGLE PRESS
 				switch(i)
 				{
 					case (0):

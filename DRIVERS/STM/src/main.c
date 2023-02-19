@@ -23,7 +23,7 @@
 
 #include "stm32f103c6.h"
 #include "STM32F103C6_DRIVER_GPIO.h"
-#include "keybad.h"
+#include "keypad.h"
 #include "LCD.h"
 #include "STM32F103C6_DRIVER_EXTI.h"
 

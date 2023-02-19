@@ -158,26 +158,24 @@ typedef struct {
 //NVIC IRQ enable & disable Macros:
 //-*-*-*-*-*-*-*-*-*-*-*
 
-#define NVIC_LINE_ENABLE					1
-#define	NVIC_LINE_DISABLE					0
+//#define NVIC_LINE_ENABLE					1
+//#define	NVIC_LINE_DISABLE					0
 
+#define NVIC_IRQ6_EXTI0_Enable 							(NVIC_ISER0	|= 1<<6)
+#define NVIC_IRQ7_EXTI1_Enable 							(NVIC_ISER0	|= 1<<7)
+#define NVIC_IRQ8_EXTI2_Enable 							(NVIC_ISER0	|= 1<<8)
+#define NVIC_IRQ9_EXTI3_Enable 							(NVIC_ISER0	|= 1<<9)
+#define NVIC_IRQ10_EXTI4_Enable 						(NVIC_ISER0	|= 1<<10)
+#define NVIC_IRQ23_EXTI5_9_Enable 						(NVIC_ISER0	|= 1<<23)
+#define NVIC_IRQ40_EXTI10_15_Enable 					(NVIC_ISER0	|= 1<<8) // 40 - 32 = 8
 
-#define NVIC_IRQ6_EXTI0_ENABLE()			(NVIC_ISER0 |= 1<<6)
-#define NVIC_IRQ7_EXTI1_ENABLE()			(NVIC_ISER0 |= 1<<7)
-#define NVIC_IRQ8_EXTI2_ENABLE()			(NVIC_ISER0 |= 1<<8)
-#define NVIC_IRQ9_EXTI3_ENABLE()			(NVIC_ISER0 |= 1<<9)
-#define NVIC_IRQ10_EXTI4_ENABLE()			(NVIC_ISER0 |= 1<<10)
-#define NVIC_IRQ23_EXTI5_9_ENABLE()		    (NVIC_ISER0 |= 1<<23)
-#define NVIC_IRQ40_EXT10_15_ENABLE()		(NVIC_ISER1 |= 1<<8)
-
-
-#define NVIC_IRQ6_EXTI0_DISABLE()			(NVIC_ICER0 |= 1<<6)
-#define NVIC_IRQ7_EXTI1_DISABLE()			(NVIC_ICER0 |= 1<<7)
-#define NVIC_IRQ8_EXTI2_DISABLE()			(NVIC_ICER0 |= 1<<8)
-#define NVIC_IRQ9_EXTI3_DISABLE()			(NVIC_ICER0 |= 1<<9)
-#define NVIC_IRQ10_EXTI4_DISABLE()		    (NVIC_ICER0 |= 1<<10)
-#define NVIC_IRQ23_EXTI5_9_DISABLE()		(NVIC_ICER0 |= 1<<23)
-#define NVIC_IRQ40_EXT10_15_DISABLE()		(NVIC_ICER1 |= 1<<8)
+#define NVIC_IRQ6_EXTI0_Disable 						(NVIC_ICER0	|= 1<<6)
+#define NVIC_IRQ7_EXTI1_Disable 						(NVIC_ICER0	|= 1<<7)
+#define NVIC_IRQ8_EXTI2_Disable 						(NVIC_ICER0	|= 1<<8)
+#define NVIC_IRQ9_EXTI3_Disable 						(NVIC_ICER0	|= 1<<9)
+#define NVIC_IRQ10_EXTI4_Disable 						(NVIC_ICER0	|= 1<<10)
+#define NVIC_IRQ23_EXTI5_9_Disable 						(NVIC_ICER0	|= 1<<23)
+#define NVIC_IRQ40_EXTI10_15_Disable 					(NVIC_ICER1	|= 1<<8) // 40 - 32 = 8)
 
 
 
@@ -187,23 +185,7 @@ typedef struct {
 //EXTI
 
 
-//Line Number
-#define EXTI0				0
-#define EXTI1				1
-#define EXTI2				2
-#define EXTI3				3
-#define EXTI4				4
-#define EXTI5				5
-#define EXTI6				6
-#define EXTI7				7
-#define EXTI8				8
-#define EXTI9				9
-#define EXTI10				10
-#define EXTI11				11
-#define EXTI12				12
-#define EXTI13				13
-#define EXTI14				14
-#define EXTI15				15
+
 
 
 // Interrupt request line Number
@@ -216,7 +198,7 @@ typedef struct {
 #define 	EXTI6_IRQ			23
 #define 	EXTI7_IRQ			23
 #define 	EXTI8_IRQ			23
-#define 	EXTI9_IRQ			40
+#define 	EXTI9_IRQ			23
 #define 	EXTI10_IRQ			40
 #define 	EXTI11_IRQ			40
 #define 	EXTI12_IRQ			40
@@ -228,3 +210,4 @@ typedef struct {
 
 
 #endif /* INC_STM32F103C6_H_ */
+

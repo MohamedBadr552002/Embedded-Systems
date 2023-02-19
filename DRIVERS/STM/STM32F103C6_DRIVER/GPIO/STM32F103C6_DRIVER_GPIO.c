@@ -9,59 +9,57 @@
 
 uint8_t GET_position_CRLH(uint16_t pinNumber)
 {
-	switch (pinNumber)
-	{
-		case GPIO_PIN0 :
-			return 0 ;
-			break;
-		case GPIO_PIN1 :
-			return 4;
-			break;
-		case GPIO_PIN2 :
-			return 8;
-			break;
-		case GPIO_PIN3 :
-			return 12;
-			break;
-		case GPIO_PIN4 :
-			return 16;
-			break;
-		case GPIO_PIN5 :
-			return 20;
-			break;
-		case GPIO_PIN6 :
-			return 24;
-			break;
-		case GPIO_PIN7 :
-			return 28;
-			break;
-
-		case GPIO_PIN8 :
-			return 0 ;
-			break;
-		case GPIO_PIN9 :
-			return 4;
-			break;
-		case GPIO_PIN10 :
-			return 8;
-			break;
-		case GPIO_PIN11 :
-			return 12;
-			break;
-		case GPIO_PIN12 :
-			return 16;
-			break;
-		case GPIO_PIN13 :
-			return 20;
-			break;
-		case GPIO_PIN14 :
-			return 24;
-			break;
-		case GPIO_PIN15 :
-			return 28;
-			break;
-
+	switch(pinNumber){
+	case GPIO_PIN0:
+		return 0;
+		break;
+	case GPIO_PIN1:
+		return 4;
+		break;
+	case GPIO_PIN2:
+		return 8;
+		break;
+	case GPIO_PIN3:
+		return 12;
+		break;
+	case GPIO_PIN4:
+		return 16;
+		break;
+	case GPIO_PIN5:
+		return 20;
+		break;
+	case GPIO_PIN6:
+		return 24;
+		break;
+	case GPIO_PIN7:
+		return 28;
+		break;
+	case GPIO_PIN8:
+		return 0;
+		break;
+	case GPIO_PIN9:
+		return 4;
+		break;
+	case GPIO_PIN10:
+		return 8;
+		break;
+	case GPIO_PIN11:
+		return 12;
+		break;
+	case GPIO_PIN12:
+		return 16;
+		break;
+	case GPIO_PIN13:
+		return 20;
+		break;
+	case GPIO_PIN14:
+		return 24;
+		break;
+	case GPIO_PIN15:
+		return 28;
+		break;
 	}
+	return 0;
 }
 
 /**================================================================
@@ -87,10 +85,10 @@ void MCAL_GPIO_Init(GPIO_typeDef *GPIOx , GPIO_pinConfig_t* pinConfig)
 	configregister = (pinConfig ->GPIO_PIN_NUMBER < GPIO_PIN8)? &GPIOx->CRL : &GPIOx->CRH ;
 
 	//clear CNF8[1:0] MODE[1:0]
-	(*configregister) &= ~(0xf << GET_position_CRLH(pinConfig->GPIO_PIN_NUMBER ));
+	(*configregister) &= ~(0xF << GET_position_CRLH(pinConfig->GPIO_PIN_NUMBER ));
 
 	//if PIN is output
-	if( (pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_AF_OD) || (pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_AF_PP) || (pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_OD)||(pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_PP))
+	if( (pinConfig->GPIO_MODE == GPIO_MODE_OUTPUT_AF_OD) || (pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_AF_PP) || (pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_OD)||(pinConfig->GPIO_MODE ==GPIO_MODE_OUTPUT_PP))
 	{
 		//SET CNF8[1:0] MODE[1:0]
 		PIN_config = ( (((pinConfig->GPIO_MODE - 4)<<2) | (pinConfig->GPIO_OUTPUT_SPEED)) & 0x0F ) ;
@@ -103,12 +101,12 @@ void MCAL_GPIO_Init(GPIO_typeDef *GPIOx , GPIO_pinConfig_t* pinConfig)
 		if((pinConfig->GPIO_MODE == GPIO_MODE_INPUT_FLO) || (pinConfig->GPIO_MODE == GPIO_MODE_ANALOG))
 		{
 			//SET CNF8[1:0] MODE[1:0]
-			PIN_config = ( ((( pinConfig->GPIO_MODE) << 2 ) | 0x0) & 0x0f);
+			PIN_config = ( ((( pinConfig->GPIO_MODE) << 2 ) | 0x0) & 0x0F);
 		}
 		else if(pinConfig->GPIO_MODE == GPIO_MODE_INPUT_AF_) //consider it as input floating
 		{
 			//SET CNF8[1:0] MODE[1:0]
-			PIN_config = ( ((( GPIO_MODE_INPUT_FLO) << 2 ) | 0x0) & 0x0F) ;
+			PIN_config = ( (( GPIO_MODE_INPUT_FLO << 2 ) | 0x0) & 0x0F) ;
 
 		}
 		else //PILUP or PULLDOWN
@@ -192,17 +190,17 @@ void MCAL_GPIO_Deinit(GPIO_typeDef *GPIOx)
 
 uint8_t MCAL_GPIO_Readpin(GPIO_typeDef *GPIOx , uint16_t pinNumber)
 {
-	uint8_t bitStatus ;
+
 	if( ( (GPIOx->IDR) & pinNumber) != (uint32_t)GPIO_PIN_RESET)
 	{
-		bitStatus = GPIO_PIN_SET;
+		return GPIO_PIN_SET;
 	}
 	else
 	{
-		bitStatus = GPIO_PIN_RESET;
+		return GPIO_PIN_RESET;
 	}
 
-	return bitStatus ;
+
 
 }
 
@@ -220,7 +218,7 @@ uint16_t MCAL_GPIO_Readport(GPIO_typeDef *GPIOx)
 {
 	uint16_t portValue ;
 
-	portValue = (uint32_t)GPIOx->IDR ;
+	portValue = (uint16_t)GPIOx->IDR ;
 	return portValue;
 }
 
@@ -275,7 +273,7 @@ void MCAL_GPIO_Writepin(GPIO_typeDef *GPIOx , uint16_t pinNumber, uint8_t value)
 
 void MCAL_GPIO_Writeport(GPIO_typeDef *GPIOx , uint16_t value)
 {
-	GPIOx->ODR = value ;
+	GPIOx->ODR = (uint32_t)value ;
 }
 
 /**================================================================
@@ -345,7 +343,7 @@ These bits are read write but can only be written when the LCKK bit is 0.
 	temp = GPIOx->LCKR ;
 	//Read 1
 
-	if((uint32_t) (GPIOx->LCKR & 1<<16 ))
+	if((uint32_t)GPIOx->LCKR & 1<<16 )
 	{
 		return GPIO_RETURN_LOCK_OK ;
 	}

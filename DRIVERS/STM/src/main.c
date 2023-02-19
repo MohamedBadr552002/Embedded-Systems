@@ -27,7 +27,7 @@
 #include "LCD.h"
 #include "STM32F103C6_DRIVER_EXTI.h"
 
-uint8_t  IQR_FLAG=0 ;
+unsigned int  IQR_FLAG=0 ;
 
 void CLOCK_INIT(void)
 {
@@ -39,22 +39,19 @@ void CLOCK_INIT(void)
 }
 
 
-void delay(int x)
+void wait_ms(uint32_t time)
 {
-	unsigned int i,j;
-
-	for (i=0 ; i<x ;i++)
-	{
-		for (j=0 ;j<255;j++);
-	}
+	uint32_t i,j;
+	for(i=0;i<time;i++)
+		for(j=0;j<255;j++);
 }
-
 
 void EXTI9callback()
 {
 	IQR_FLAG =1 ;
-	LCD_WRITE_STRING("RAISING TRIGGER");
-	delay(1000);
+	LCD_Clear_Screen();
+	LCD_Send_A_String("IRQ EXTI9 is happend _|- ");
+	wait_ms(100);
 
 }
 
@@ -62,12 +59,11 @@ int main(void)
 {
 
 	CLOCK_INIT();
-	LCD_INIT();
-	KEYBAD_INIT() ;
-	LCD_WRITE_STRING("HI there ...");
-	delay(500);
-	LCD_clear_screen();
-
+	LCD_Init();
+	KEYPAD_INIT() ;
+	LCD_Clear_Screen();
+	LCD_Send_A_String("hello , keypad and LCD in ready");
+	wait_ms(1000);
 
 
 	EXTI_Pinconfig_t EXTI_CFG ;
@@ -80,14 +76,34 @@ int main(void)
 
 	MCAL_EXTI_INIT(&EXTI_CFG);
 
-
+	unsigned char selected ;
 
 	IQR_FLAG = 1;
 	while (1)
 	{
+		selected =KEYPAD_GETCHAR();
+
+		switch(selected)
+		{
+			case ('?'):
+
+			LCD_Clear_Screen();
+			break;
+
+		case ('A'):
+
+			break; //do nothing if there is no key pressed
+
+		default:
+			LCD_Send_A_Character(selected);
+
+			break;
+
+		}
+
 		if (IQR_FLAG )
 		{
-			LCD_clear_screen();
+			LCD_Clear_Screen();
 			IQR_FLAG = 0 ;
 		}
 

@@ -59,7 +59,7 @@ typedef struct {
 #define GPIO_PIN15    	((uint16_t)  0x8000)
 #define GPIO_PIN_All  	((uint16_t)  0xFFFF)
 
-#define GPIO_PIN_MASK 	0x0000FFFU  //PIN mask for asssert test
+#define GPIO_PIN_MASK 	0x0000FFFFu  //PIN mask for asssert test
 
 /*@ref GPIO_MODE_define*/
 
@@ -73,16 +73,15 @@ typedef struct {
 //7: Alternate function output Open-drain
 //8: Alternate function Input
 
-#define GPIO_MODE_ANALOG          0x00000000U
-#define GPIO_MODE_INPUT_FLO       0x00000001U
-#define GPIO_MODE_INPUT_PU        0x00000002U
-#define GPIO_MODE_INPUT_PD        0x00000003U
-#define GPIO_MODE_OUTPUT_PP       0x00000004U
-#define GPIO_MODE_OUTPUT_OD       0x00000005U
-#define GPIO_MODE_OUTPUT_AF_PP    0x00000006U
-#define GPIO_MODE_OUTPUT_AF_OD    0x00000007U
-#define GPIO_MODE_INPUT_AF_       0x00000008U
-
+#define GPIO_MODE_ANALOG          0x00000000u
+#define GPIO_MODE_INPUT_FLO       0x00000001u
+#define GPIO_MODE_INPUT_PU        0x00000002u
+#define GPIO_MODE_INPUT_PD        0x00000003u
+#define GPIO_MODE_OUTPUT_PP       0x00000004u
+#define GPIO_MODE_OUTPUT_OD       0x00000005u
+#define GPIO_MODE_OUTPUT_AF_PP    0x00000006u
+#define GPIO_MODE_OUTPUT_AF_OD    0x00000007u
+#define GPIO_MODE_INPUT_AF_       0x00000008u
 
 /*@ref GPIO_SPEED_define*/
 
@@ -116,3 +115,4 @@ uint8_t MCAL_GPIO_Lockpin(GPIO_typeDef *GPIOx , uint16_t pinNumber);
 
 
 #endif /* INC_STM32F103C6_DRIVER_GPIO_H_ */
+

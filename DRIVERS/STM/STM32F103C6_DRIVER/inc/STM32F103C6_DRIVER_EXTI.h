@@ -55,6 +55,25 @@ typedef struct
 
 //============================================================================
 //@ref EXTI_define
+
+//Line Number
+#define EXTI0				0
+#define EXTI1				1
+#define EXTI2				2
+#define EXTI3				3
+#define EXTI4				4
+#define EXTI5				5
+#define EXTI6				6
+#define EXTI7				7
+#define EXTI8				8
+#define EXTI9				9
+#define EXTI10				10
+#define EXTI11				11
+#define EXTI12				12
+#define EXTI13				13
+#define EXTI14				14
+#define EXTI15				15
+
 //EXTI0
 #define EXTI0PA0         (EXTI_GPIO_Mapping_t){ EXTI0 , GPIOA , GPIO_PIN0, EXTI0_IRQ }
 #define EXTI0PB0         (EXTI_GPIO_Mapping_t){ EXTI0 , GPIOB , GPIO_PIN0, EXTI0_IRQ }
@@ -157,10 +176,7 @@ typedef struct
 //@ref EXTI_Trigger
 
 #define 	EXTI_TRIGGER_RAISING				0
-
 #define  	EXTI_TRIGGER_FALLING				1
-
-
 #define 	EXTI_TRIGGER_raisingANDfalling      2
 
 //===============================================

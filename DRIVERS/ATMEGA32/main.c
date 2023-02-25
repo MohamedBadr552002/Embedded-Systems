@@ -5,24 +5,20 @@
  * Author : Mohamed
  */ 
 
-#define F_CPU 8000000UL
 
 
-#include "ATmega.h"
+
 #include "INC/DIO.h"
 #include "util/delay.h"
+#include "HAL/inc/LCD.h"
 
 
-
-
+#define F_CPU 1000000UL
 
 void DIO_INIT(void)
 {
-		MCAL_DIO_INIT_PIN(PORT_D , DIO_PIN5 , DIO_PIN_OUTPUT);
-		MCAL_DIO_INIT_PIN(PORT_D , DIO_PIN6 , DIO_PIN_OUTPUT);
-		MCAL_DIO_INIT_PIN(PORT_D , DIO_PIN7 , DIO_PIN_OUTPUT);
-		MCAL_DIO_INIT_PIN(PORT_D , DIO_PIN0 , DIO_PIN_INPUT);
-		
+
+			
 
 }
 
@@ -30,22 +26,13 @@ void DIO_INIT(void)
 int main(void)
 {	
 
-	DIO_INIT();
+	
+	LCD_INIT();
+	LCD_WRITE_STRING("Learn In Depth . ");
     /* Replace with your application code */
     while (1) 
     {
-		
-		if (MCAL_DIO_READ_PIN(PORT_D , DIO_PIN0) == DIO_PIN_HIGH)
-		{
-			MCAL_DIO_TOGGLE_PIN(PORT_D , DIO_PIN5 );
-			MCAL_DIO_TOGGLE_PIN(PORT_D , DIO_PIN6 );
-			MCAL_DIO_TOGGLE_PIN(PORT_D , DIO_PIN7 );
-			_delay_ms(1000);
-		}
-			
-		
+	
 		
     }
 }
-
-

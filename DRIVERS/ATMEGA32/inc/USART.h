@@ -19,6 +19,7 @@
 //Macros Configuration References
 //-----------------------------
 
+
 //@ref OPERATION MODE
 #define USART_Asynchronous_Mode			0
 #define USART_Synchronous_Mode			1

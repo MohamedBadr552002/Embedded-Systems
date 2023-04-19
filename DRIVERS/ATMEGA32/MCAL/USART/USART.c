@@ -22,6 +22,7 @@
 */
 
 
+
 void MCAL_USART_INIT(uint8_t num_data, uint8_t Mode , uint8_t Parity , uint8_t stop)
 {	
 	//baud rate

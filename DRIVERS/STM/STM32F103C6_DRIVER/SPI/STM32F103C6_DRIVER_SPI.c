@@ -14,6 +14,7 @@
  * =======================================================================================
  */
 SPI_Config* Global_SPI_Config[2]  = {NULL,NULL} ;
+	//this variables to take Copy from the configuration data to make sure it will not deleted
 SPI_Config Global_SPI_Config1 ;
 SPI_Config Global_SPI_Config2 ;
 
@@ -46,7 +47,7 @@ SPI_Config Global_SPI_Config2 ;
  * 					- in case of master you have to configure pin and drive it
  */
 
-void MCAL_SPI_INIT (SPI_TypeDef *SPIx, SPI_Config* SPI_Config)
+void MCAL_SPI_INIT (SPI_typeDef *SPIx, SPI_Config* SPI_Config)
 {
 	  uint16_t tmpreg_CR1 = 0;
 	  uint16_t tmpreg_CR2 = 0;
@@ -139,7 +140,7 @@ void MCAL_SPI_INIT (SPI_TypeDef *SPIx, SPI_Config* SPI_Config)
 }
 
 
-void MCAL_SPI_DEINIT (SPI_TypeDef *SPIx)
+void MCAL_SPI_DEINIT (SPI_typeDef *SPIx)
 {
 	if(SPIx == SPI1)
 	{
@@ -155,7 +156,7 @@ void MCAL_SPI_DEINIT (SPI_TypeDef *SPIx)
 
 }
 
-void MCAL_SPI_SENDDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn )
+void MCAL_SPI_SENDDATA	(SPI_typeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn )
 {
 	if(PollingEn == SPI_Pollingenable)
 		while(!(SPIx)->SPI_SR & SPI_SR_TXE);
@@ -164,7 +165,7 @@ void MCAL_SPI_SENDDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechi
 
 }
 
-void MCAL_SPI_RECIEVEDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer ,enum PollingMechism PollingEn )
+void MCAL_SPI_RECIEVEDATA	(SPI_typeDef *SPIx, uint16_t *pTxBuffer ,enum PollingMechism PollingEn )
 {
 	if(PollingEn == SPI_Pollingenable)
 		while(!(SPIx)->SPI_SR & SPI_SR_RXNE);
@@ -173,7 +174,7 @@ void MCAL_SPI_RECIEVEDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer ,enum PollingM
 }
 
 
-void MCAL_SPI_TX_RX	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn )
+void MCAL_SPI_TX_RX	(SPI_typeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn )
 {
 	if(PollingEn == SPI_Pollingenable)
 		while(!(SPIx)->SPI_SR & SPI_SR_TXE);
@@ -190,7 +191,7 @@ void MCAL_SPI_TX_RX	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism 
 }
 
 
-void MCAL_SPI_GPIO_SET_PINS (SPI_TypeDef *SPIx)
+void MCAL_SPI_GPIO_SET_PINS (SPI_typeDef *SPIx)
 {
 	GPIO_pinConfig_t PinCfg ;
 

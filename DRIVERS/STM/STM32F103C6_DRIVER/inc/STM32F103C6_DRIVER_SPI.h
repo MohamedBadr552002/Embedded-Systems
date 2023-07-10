@@ -13,7 +13,7 @@
 #include "STM32F103C6_DRIVER_RCC.h"
 
 //-----------------------------
-//Configuration Struct
+//User type definitions (structures)
 //-----------------------------
 
 struct S_IRQ_SRC
@@ -119,12 +119,12 @@ enum PollingMechism{
 * =======================================================================================
 */
 
-void MCAL_SPI_INIT (SPI_TypeDef *SPIx, SPI_Config* SPI_Config);
-void MCAL_SPI_DEINIT (SPI_TypeDef *SPIx);
-void MCAL_SPI_GPIO_SET_PINS (SPI_TypeDef *SPIx);
-void MCAL_SPI_SENDDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn );
-void MCAL_SPI_RECIEVEDATA	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer ,enum PollingMechism PollingEn );
-void MCAL_SPI_TX_RX	(SPI_TypeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn );
+void MCAL_SPI_INIT (SPI_typeDef *SPIx, SPI_Config* SPI_Config);
+void MCAL_SPI_DEINIT (SPI_typeDef *SPIx);
+void MCAL_SPI_GPIO_SET_PINS (SPI_typeDef *SPIx);
+void MCAL_SPI_SENDDATA	(SPI_typeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn );
+void MCAL_SPI_RECIEVEDATA	(SPI_typeDef *SPIx, uint16_t *pTxBuffer ,enum PollingMechism PollingEn );
+void MCAL_SPI_TX_RX	(SPI_typeDef *SPIx, uint16_t *pTxBuffer,enum PollingMechism PollingEn );
 
 
 

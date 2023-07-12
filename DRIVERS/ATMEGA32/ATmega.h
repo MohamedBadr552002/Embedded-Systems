@@ -13,6 +13,8 @@
 #include "stdint.h"
 
 
+#define F_CPU 1000000UL
+
 //#define  (unsigned char)	(uint8_t)
 
 //******************//
@@ -65,5 +67,13 @@
 #define SPCR	*(volatile uint8_t *)(0x2D)			    //SPI Control Register
 #define SPSR	*(volatile uint8_t *)(0x2E)				//SPI Status Register 
 #define SPDR	*(volatile uint8_t *)(0x2F)		     	//SPI Data Register 
+
+////I2C
+#define TWDR	*(volatile uint8_t *)(0x23)				//Two-wire Serial Interface Data Register
+#define TWSR	*(volatile uint8_t *)(0x21)			
+#define TWBR	*(volatile uint8_t *)(0x20)
+#define TWCR	*(volatile uint8_t *)(0x56)
+#define TWAR	*(volatile uint8_t *)(0x22)
+
 
 #endif /* ATMEGA_H_ */

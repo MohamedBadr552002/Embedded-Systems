@@ -13,7 +13,7 @@
 #include "stdint.h"
 
 
-#define F_CPU 1000000UL
+#define F_CPU 8000000UL
 
 //#define  (unsigned char)	(uint8_t)
 
@@ -74,6 +74,11 @@
 #define TWBR	*(volatile uint8_t *)(0x20)
 #define TWCR	*(volatile uint8_t *)(0x56)
 #define TWAR	*(volatile uint8_t *)(0x22)
+
+////TIMER
+#define OCR0	*(volatile uint8_t *)(0x5C)
+#define TCNT0	*(volatile uint8_t *)(0x52)
+#define TCCR0	*(volatile uint8_t *)(0x53)
 
 
 #endif /* ATMEGA_H_ */

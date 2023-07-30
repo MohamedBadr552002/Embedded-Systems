@@ -80,5 +80,10 @@
 #define TCNT0	*(volatile uint8_t *)(0x52)
 #define TCCR0	*(volatile uint8_t *)(0x53)
 
+////ADC
+#define ADC			*(volatile uint16_t *)(0x24)			//The ADC Data Register �ADCL and ADCH
+#define ADCSRA		*(volatile uint8_t  *)(0x26)			//ADC Control and StatusRegister A
+#define ADMUX		*(volatile uint8_t *)(0x27)			//ADC Multiplexer Selection Register
+#define SFIOR		*(volatile uint8_t *)(0x50)			//Special FunctionIO Register
 
 #endif /* ATMEGA_H_ */

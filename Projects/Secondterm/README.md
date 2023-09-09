@@ -12,9 +12,9 @@ The Project Cosists of 3 ECU (STM32F103C6) .
 
 1) The Frist Microcontroller (ECU1) is responsible for Setting the valid IDs by the Admin and receive The Entered ID From ECU3 Through SPI Communication Protocol and Check if the enter ID is valid one or not.
 
-if it's valid one this ECU will Turn on Green Led which indicate that  ID is valid after the That the 'o' Command( open gate command)  will Send through UART to ECU2 which control the Servo motors to open the enter Gate.
+  if it's valid one this ECU will Turn on Green Led which indicate that  ID is valid after the That the 'o' Command( open gate command)  will Send   through UART to ECU2 which control the Servo motors to open the enter Gate.
 
-if it isn't valid one the Turn on Red Led which indicate that ID is valid and 'c' command ( close Gate Command ) will send through UART to ECU2
+  if it isn't valid one the Turn on Red Led which indicate that ID is valid and 'c' command ( close Gate Command ) will send through UART to ECU2
 
 2) The Second Microcontroller (ECU2) is responsible for Control The Enter and Exit Gates by two Servo motors according to the receiving Command from ECU1.also count the number of avilable Slots and Display it on Big Sevent Segment  
 3) The Third Microcontroller (ECU3) is responsible for Taking The ID from user and Send it throu SPI to ECU1 which will identify is it valid or not ? , also connected to LCD to welcom by users and tell them to show them IDs

@@ -20,3 +20,19 @@ The Project Cosists of 3 ECU (STM32F103C6) .
 
 2) The Second Microcontroller (ECU2) is responsible for Control The Enter and Exit Gates by two Servo motors according to the receiving Command from ECU1.also count the number of avilable Slots and Display it on Big Sevent Segment  
 3) The Third Microcontroller (ECU3) is responsible for Taking The ID from user and Send it throu SPI to ECU1 which will identify is it valid or not ? , also connected to LCD to welcom by users and tell them to show them IDs ,about the Exit Gate there is an PIR Sensor connected as External interrupt which will open the Exit Gate if The PIR Sense a Car want to Exit.
+
+Driver: 
+
+MCAL
+1) GPIO
+2) EXTI
+3) TIMER
+4) UART
+5) SPI
+6) RCC
+
+HAL
+1) LCD
+2) Keyped
+3) 7 segment
+4) Servo motor

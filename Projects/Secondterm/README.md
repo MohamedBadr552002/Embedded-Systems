@@ -36,3 +36,5 @@ HAL
 2) Keyped
 3) 7 segment
 4) Servo motor
+
+Link For Simulation : https://drive.google.com/drive/folders/1yevIup0NM9SU5S6gC43kUXZtqyWPmv_Z 

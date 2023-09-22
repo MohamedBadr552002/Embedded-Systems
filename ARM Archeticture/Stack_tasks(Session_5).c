@@ -1,4 +1,6 @@
 
+
+
 #include "stm32f103c6.h"
 #include "STM32F103C6_DRIVER_GPIO.h"
 #include "keybad.h"
@@ -15,10 +17,11 @@
 
 
 
-#define OS_SET_PSP(add)			_asm volatile("mov r0,%0 \n\t msr PSP,r0": :"r"(add))
-#define OS_SWITCH_SP_to_PSP		_asm volatile("mrs r0,CONTROL \n\t mov r1,#0x02 \n\t orr r0,r0,r1 \n\t msr CONTROL.r0")
-#define OS_SWITCH_SP_to_PSP		_asm volatile("mrs r0,CONTROL \n\t mov r1,#0x05 \n\t and r0,r0,r1 \n\t msr CONTROL.r0")
-#define OS_Generate_Exception	_asm volatile("SVC #0x3")
+
+#define OS_SET_PSP(add)			__asm volatile("mov r0,%0 \n\t msr PSP,r0": :"r"(add))
+#define OS_SWITCH_SP_to_PSP		__asm volatile("mrs r0,CONTROL \n\t mov r1,#0x02 \n\t orr r0,r0,r1 \n\t msr CONTROL,r0")
+#define OS_SWITCH_SP_to_MSP		__asm volatile("mrs r0,CONTROL \n\t mov r1,#0x05 \n\t and r0,r0,r1 \n\t msr CONTROL,r0")
+#define OS_Generate_Exception	__asm volatile("SVC #0x3")
 
 #define TaskA_stack_size 100
 #define TaskB_stack_size 100
@@ -46,7 +49,7 @@ enum CPU_AccessLevel{
 
 
 
-void Change_CPU_AccessLevel(enum level)
+void Change_CPU_AccessLevel(enum CPU_AccessLevel level)
 {
     switch(level)
     {
@@ -60,11 +63,11 @@ void Change_CPU_AccessLevel(enum level)
              __asm("mov r3,CONTROL \t\n"
                   "orr r3,r3,#0x1 \t\n"
                   "msr CONTROL,r3");
-            break;    
+            break;
     }
 
 }
-void clock_init()
+void CLOCK_INIT()
 {
 	RCC_GPIOA_CLK_EN();
 	RCC_GPIOB_CLK_EN();
@@ -88,14 +91,17 @@ void EXTI5PB5_OPEN_EXIT_GATE()
 	}
 }
 
-void TaskA()
+int TaskA(int a , int b ,int c)
 {
     //Task1 Operations
+	return a+b+c;
+
 }
 
-void TaskB()
+int TaskB(int a , int b ,int c)
 {
     //Task2 Operations
+	return a*b*c;
 }
 
 void SVC_Handler()
@@ -105,21 +111,22 @@ void SVC_Handler()
 
 
 void OS_Main()
-{	
+{
 	//Main stack
 	_E_MSP =(_S_MSP - 512);
-	
+
 	//taskA stack
 	_S_PSP_TA = (_E_MSP -8);
 	_E_PSP_TA = (_S_PSP_TA - TaskA_stack_size);
-	
+
 	//taskB stack
 	_S_PSP_TB = (_E_PSP_TA -8);
 	_E_PSP_TB = (_S_PSP_TB - TaskB_stack_size);
-	
+
 	while(1)
-	{	
-	_asm("NOP");
+	{
+	__asm("NOP");
+
 	if(TASKA_flag == 1)
 	{
 		//Set PSP Register = _S_PSP_TA
@@ -130,9 +137,9 @@ void OS_Main()
 		Change_CPU_AccessLevel(unPrivilaged);
 
 		//Calling the Task
-		TaskA();	
-		
-		//switch from unPrivilag to Privilag 
+		TASKA_flag = TaskA(1,2,3);
+
+		//switch from unPrivilag to Privilag
 		OS_Generate_Exception;
 		// SP -> MSP
 	}
@@ -146,9 +153,9 @@ void OS_Main()
 		Change_CPU_AccessLevel(unPrivilaged);
 
 		//Calling the Task
-		TaskB();	
-		
-		//switch from unPrivilag to Privilag 
+		TASKB_flag =TaskB(1,2,3);
+
+		//switch from unPrivilag to Privilag
 		OS_Generate_Exception;
 		// SP -> MSP
 	}
@@ -168,7 +175,7 @@ int main()
 	PIR2.P_IRQ_CallBack = EXTI5PB5_OPEN_EXIT_GATE ;
 	PIR2.IRQ_EN = EXTI_IRQ_ENABLE;
 	MCAL_EXTI_INIT(&PIR2);
-	
+
 	OS_Main();
 
     while(1)
@@ -177,3 +184,4 @@ int main()
 
     }
 }
+

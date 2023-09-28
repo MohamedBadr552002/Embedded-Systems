@@ -3,10 +3,16 @@
 
 User Story:
 
-Making Vehicles Parcking You can Enter it By Specific IDs Readed By QR Code Reader and LCD to watch the user to show his ID to The QR Reader, Big 7 segment 
-to Show how many available , An Enter Gate Controlled by Servo motor open if the User enter a valid ID for Safty there is PIR sensor near to the Gate which will not close until the PIR Sensor make Sure that the car Passed .
-And for The Exit Gate there is PIR Sensor to Sense there is car want to exit the Exit Gate open and Close if PIR make Sure that the car Passed.
-about the IDs will be Created By System Admin.
+Design and Development a parking System forvehicles
+has Features of:
+* You can enter it using specific IDs read by a QR code reader.
+* IDs are Set By the System Admin.
+* LCD to tell the user to show his ID to The QR Reader.
+* Green and Red Leds to indicate the Validation of the entered ID.
+* Big 7 segment to Show how many availableSlots.
+* An Enter Gate Controlled by Servo motor open if the User enter a valid ID.
+* for Safety there is PIR sensor near to the Gate which will not close until the PIR Sensor make Sure that the car has completely passed.
+* At The Exit Gate there is PIR Sensor to Sense there is car want to exit the Exit Gate open and Close if PIR make Sure that the car has completely passed.
 
 Technical Details:
 
@@ -19,7 +25,7 @@ The Project Cosists of 3 ECU (STM32F103C6) .
   if it isn't valid one the Turn on Red Led which indicate that ID is valid and 'c' command ( close Gate Command ) will send through UART to ECU2
 
 2) The Second Microcontroller (ECU2) is responsible for Control The Enter and Exit Gates by two Servo motors according to the receiving Command from ECU1.also count the number of avilable Slots and Display it on Big Sevent Segment  
-3) The Third Microcontroller (ECU3) is responsible for Taking The ID from user and Send it throu SPI to ECU1 which will identify is it valid or not ? , also connected to LCD to welcom by users and tell them to show them IDs ,about the Exit Gate there is an PIR Sensor connected as External interrupt which will open the Exit Gate if The PIR Sense a Car want to Exit.
+3) The Third Microcontroller (ECU3) is responsible for Taking The ID from user and Send it through SPI to ECU1 which will identify is it valid or not ? , also connected to LCD to welcome by users and tell them to show them IDs ,about the Exit Gate there is an PIR Sensor connected as External interrupt which will open the Exit Gate if The PIR Sense a Car want to Exit.
 
 Driver: 
 

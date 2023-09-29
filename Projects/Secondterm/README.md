@@ -3,7 +3,7 @@
 
 User Story:
 
-Design and Development a parking System forvehicles
+Design and Development a parking System for vehicles
 has Features of:
 * You can enter it using specific IDs read by a QR code reader.
 * IDs are Set By the System Admin.

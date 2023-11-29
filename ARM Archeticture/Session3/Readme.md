@@ -1,1 +1,1 @@
-Practice on inline Assembly ARM Instruction
+Practicing on inline Assembly ARM Instruction

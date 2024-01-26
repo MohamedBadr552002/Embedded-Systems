@@ -1,0 +1,120 @@
+## This Real-Time Operating System Was designed based on:
+* Online Static Priority
+* Pre-emtive 
+* Round-robin Schedualing Time-shared Algorithm
+
+#### Which mean that scheduler Makes Decision about task execution and Priorities During Run time with Fixed Priority for each Task Set by the Programmer also the higher Priority task interrupt the lower one .
+#### About the time shared Algorithm between the same Priority tasks the Round-Robin Algorithm take the responsibilty.
+
+## Algorithm Over view 
+### Note : this OS Was implemented and Tested on Stm32f103c6 based on Corex-M3 processor .
+### Systick Generate Handler Interrupt each 1 millisecond.
+![RTOS](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/d30bc7d1-549b-4fc3-8f4d-de26f46036a5)
+
+
+
+
+## Task States 
+##### this OS Could hep me to set the comming State for each Task to schedule between them
+* suspend : In this state, the task has been suspended by another task or by the system. it's not participating in scheduling process and can not be selected for 
+            execution.
+* running : In this state, the task is currently executing excuting by the processor.
+* waiting : In this state, the task is waiting for an event to occur or a resource to become available. It's not participating in the scheduling process and can 
+            not be selected for execution until the event or resource become avalible.
+* ready   : In this state, the task is ready to  run but is waiting for the processor to become avalible. `It's placed in a ready queue and is waiting for the 
+           scheduler to select`.
+
+#### In case of Suspended for all Tasks the OS Execute the idle task which led the CPU to be in Sleep mode and waiting for event to start up again to reduce the consumed power.
+![Screenshot 2023-12-16 233938](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/392e8739-d4e8-4e18-9121-3bc00c5ea7de)
+
+
+## Tasks Synchronization
+#### This OS Support Mutex across making one task to acquire a Specific Mutex also one Task can be in waiting state for Relesing of the mutex.
+![Screenshot 2024-01-24 181135](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/adce5bc3-d6b6-4e5c-a06e-af36f76b89b5)
+
+
+## APIs
+```c
+/**================================================================
+* @Fn				- RTOS_INIT
+* @brief		    - Initialize the OS to be ready to work By Creating Main Stack and put the OS in Suspend State
+* @param [in] 		- none
+* @retval		    - Return the State of the OS According to initialization operation
+* Note				- This Function not used for Start the OS just for Initialization
+*==================================================================*/
+OS_State_ID RTOS_INIT();
+```
+```c
+/**================================================================
+* @Fn				- RTOS_START
+* @brief		    - Start the Scheduling  Operation
+* @param [in] 		- none
+* @retval		    - none
+* Note				- Ticker Time is 1 ms
+*==================================================================*/
+void RTOS_START();
+```
+
+```c
+/**================================================================
+* @Fn				- RTOS_Create_Task
+* @brief		    - Create Real time Task By Preparing Task Stack
+* @param [in] 		- Struct for Task properties
+* @retval		    - Return the State of the OS
+* Note				- Task was put in Suspend State until Activation Command
+*==================================================================*/
+OS_State_ID RTOS_Create_Task(Task_ref* Task);
+```
+
+```c
+/**================================================================
+* @Fn				- RTOS_ActivateTask
+* @brief		    - Activate Task and put it in Ready or Working State
+* @param [in] 		- Struct for Task properties
+* @retval		    - none
+* Note				- Task was put in Waiting State until OS Schedule Decision
+*==================================================================*/
+void RTOS_ActivateTask(Task_ref *Task);
+```
+
+```c
+/**================================================================
+* @Fn				- RTOS_TerminateTask
+* @brief		    - Put task in Suspend State and stop working
+* @param [in] 		- Struct for Task properties
+* @retval		    - none
+*==================================================================*/
+void RTOS_TerminateTask(Task_ref *Task);
+```
+
+```c
+/**================================================================
+* @Fn				- RTOS_WaitingTask
+* @brief		    - Put task in Waiting State For Specific Time
+* @param [in] 		- Waiting time in ms
+* @param [in] 		- Struct for Task properties
+* @retval		    - none
+*==================================================================*/
+void RTOS_WaitingTask(unsigned int TICKS /*In ms*/,Task_ref *Task);
+```
+```c
+/**================================================================
+* @Fn				- RTOS_AquireMutex
+* @brief		    - Task try to Take this Mutex
+* @param [in] 		- Struct for Mutex
+* @param [in] 		- Struct for Task
+* @retval		    - Return the State of the OS
+* @Note				- Just Two task can Take this Mutex
+*==================================================================*/
+OS_State_ID RTOS_AquireMutex(Mutex_ref * Mutex , Task_ref *next_user);
+```
+
+```c
+/**================================================================
+* @Fn				- RTOS_ReleaseMutex
+* @brief		    - Release this Mutex from this Task
+* @param [in] 		- Struct for Mutex
+* @retval		    - none
+*==================================================================*/
+void RTOS_ReleaseMutex(Mutex_ref *Mutex);
+```

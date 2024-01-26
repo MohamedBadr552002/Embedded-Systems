@@ -1,12 +1,12 @@
-## This Real-Time Operating System Was designed based on:
+# This Real-Time Operating System Was designed based on:
 * Online Static Priority
 * Pre-emtive 
 * Round-robin Schedualing Time-shared Algorithm
 
-#### Which mean that scheduler Makes Decision about task execution and Priorities During Run time with Fixed Priority for each Task Set by the Programmer also the higher Priority task interrupt the lower one .
+#### Which mean that scheduler Makes Decision about task execution and Priorities During Run time also the higher Priority task interrupt the lower one .
 #### About the time shared Algorithm between the same Priority tasks the Round-Robin Algorithm take the responsibilty.
 
-## Algorithm Over view 
+# Algorithm Over view 
 ### Note : this OS Was implemented and Tested on Stm32f103c6 based on Corex-M3 processor .
 ### Systick Generate Handler Interrupt each 1 millisecond.
 ![RTOS](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/d30bc7d1-549b-4fc3-8f4d-de26f46036a5)
@@ -14,7 +14,7 @@
 
 
 
-## Task States 
+# Task States 
 ##### this OS Could hep me to set the comming State for each Task to schedule between them
 * suspend : In this state, the task has been suspended by another task or by the system. it's not participating in scheduling process and can not be selected for 
             execution.
@@ -28,12 +28,22 @@
 ![Screenshot 2023-12-16 233938](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/392e8739-d4e8-4e18-9121-3bc00c5ea7de)
 
 
-## Tasks Synchronization
+# Tasks Synchronization
 #### This OS Support Mutex across making one task to acquire a Specific Mutex also one Task can be in waiting state for Relesing of the mutex.
 ![Screenshot 2024-01-24 181135](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/adce5bc3-d6b6-4e5c-a06e-af36f76b89b5)
+#### `But this led to Priority Inversion Problem !!`
+## Priority Inversion 
+the problem happen when low priority task holds a resource required by high priority task leading to delay the execution of the highest one.
+the Algorithim Uses __`Priority Inheritance Solution `__
+
+## Priority Inheritance Solution
+#### It's a Resource access Control Protocol that temporarily raise the priority of a Low-priority Task holding a shared resource to the high-priority Task that needs the resource.
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/6d4e066a-9130-4326-b034-4364fc44907e)
 
 
-## APIs
+
+
+# APIs
 ```c
 /**================================================================
 * @Fn				- RTOS_INIT

@@ -40,7 +40,11 @@ the Algorithim Uses __`Priority Inheritance Solution `__
 #### It's a Resource access Control Protocol that temporarily raise the priority of a Low-priority Task holding a shared resource to the high-priority Task that needs the resource.
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/6d4e066a-9130-4326-b034-4364fc44907e)
 
-
+## DeadLock Problem
+##### deadlock occur when two or more tasks are waiting for each other to release resources that they hold.
+![Screenshot 2024-01-26 232638](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/c20f0be7-03f1-40cb-9fbb-c24b792d1511)
+### But the Operating System provide a solution for this problem by stopping any task from acquiring more than one Mutex .
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/f3aacc73-760c-46f3-9e87-6610c26ec9f7)
 
 
 # APIs

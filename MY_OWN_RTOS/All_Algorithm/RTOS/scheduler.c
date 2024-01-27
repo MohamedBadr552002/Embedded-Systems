@@ -435,21 +435,28 @@ OS_State_ID RTOS_AquireMutex(Mutex_ref *Mutex , Task_ref *next_task)
 					Mutex->Current_user->priority = Mutex->priority_inheriting.C_task_inherited_priority ;
 				}
 
-			}
+				//Setting Current and next task for this Mutex based on priority
+				if(Mutex->Current_user->priority > next_task->priority){ //P(next task) > p(current task)
 
-			//Setting Current and next task for this Mutex based on priority
-			if(Mutex->Current_user->priority > next_task->priority){ //P(next task) > p(current task)
+					Mutex->Next_user = Mutex->Current_user;
+					Mutex->Current_user = next_task;
+					next_task->Task_State = suspend ;
+					rtos_SVC_Set(SVC_terminatetask);
 
-				Mutex->Next_user = Mutex->Current_user;
-				Mutex->Current_user = next_task;
-				next_task->Task_State = suspend ;
-				rtos_SVC_Set(SVC_terminatetask);
+				}else{ //P(next task) < p(current task)
+					Mutex->Next_user = next_task;
+					next_task->Task_State = suspend ;
+					rtos_SVC_Set(SVC_terminatetask);
+				}
 
-			}else{ //P(next task) < p(current task)
+			}else{
+
 				Mutex->Next_user = next_task;
 				next_task->Task_State = suspend ;
 				rtos_SVC_Set(SVC_terminatetask);
 			}
+
+
 
 
 

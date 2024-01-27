@@ -8,7 +8,11 @@
 #include "scheduler.h"
 #include "RTOS_FIFO.h"
 
-uint8_t buble =0;
+#define NumOfAquiredTasks	50
+Task_ref* AquiredTasks[NumOfAquiredTasks];
+uint8_t Task_num =0;
+
+
 
 struct{
 	Task_ref* OS_Tasks[100]; // sch table
@@ -138,6 +142,68 @@ void  Decide_Next(){
 
 }
 
+void merge(Task_ref* arr[], unsigned int left, unsigned int mid, unsigned int right) {
+	unsigned int i, j, k;
+	unsigned int n1 = mid - left + 1;
+	unsigned int n2 = right - mid;
+
+	// Create temporary arrays
+	Task_ref* L[n1];
+	Task_ref* R[n2];
+
+	// Copy data to temporary arrays
+	for (i = 0; i < n1; i++)
+		L[i] = arr[left + i];
+	for (j = 0; j < n2; j++)
+		R[j] = arr[mid + 1 + j];
+
+	// Merge the temporary arrays back into arr[]
+	i = 0;    // Initial index of first subarray
+	j = 0;    // Initial index of second subarray
+	k = left; // Initial index of merged subarray
+
+	while (i < n1 && j < n2) {
+		if (L[i]->priority <= R[j]->priority) {
+			arr[k] = L[i];
+			i++;
+		} else {
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
+	}
+
+	// Copy the remaining elements of L[], if there are any
+	while (i < n1) {
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
+
+	// Copy the remaining elements of R[], if there are any
+	while (j < n2) {
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+}
+
+void mergeSort(Task_ref* arr[], unsigned int left, unsigned int right) {
+	if (left < right) {
+		// Same as (left + right) / 2, but avoids overflow
+		unsigned int mid = left + (right - left) / 2;
+
+		// Sort first and second halves
+		mergeSort(arr, left, mid);
+		mergeSort(arr, mid + 1, right);
+
+		// Merge the sorted halves
+		merge(arr, left, mid, right);
+
+
+	}
+}
+
 
 
 
@@ -149,7 +215,7 @@ void static bubbleSort(){
 
 		// Last i elements are already in place
 		for (j = 0; j < n - i - 1; j++){
-			buble ^=1;
+
 			if (OS_Control.OS_Tasks[j]->priority > OS_Control.OS_Tasks[j + 1]->priority)
 			{
 				temp = OS_Control.OS_Tasks[j] ;
@@ -167,6 +233,7 @@ void static rtos_update_schaduleTable(){
 
 	//1- bubble sort SchTable OS_Control-> OSTASKS[100] (priority high then low)
 	bubbleSort();
+	//mergeSort(OS_Control.OS_Tasks,0, OS_Control.No_Activated_tasks-1);
 
 	//2- free Ready Queue
 	while(FIFO_dequeue(&Ready_QUEUE, &temp) != FIFO_EMPTY);
@@ -257,14 +324,14 @@ void  rtos_SVC_Set( SVC_ID SVC_ID)
 }
 
 void static IDEL_TASK()
-{
+		{
 	/*This task operate only if the all Program Tasks terminated */
 
 	while(1){
 
 		__asm("wfe");
 	}
-}
+		}
 
 
 void static Rtos_Create_MainStack(){
@@ -284,7 +351,7 @@ void static Rtos_Create_MainStack(){
 
 
 void static RTOS_Create_Stack(Task_ref* Task)
-{
+		{
 	/*Task Frame
 	 * ======
 	 * XPSR
@@ -313,7 +380,7 @@ void static RTOS_Create_Stack(Task_ref* Task)
 	}
 
 
-}
+		}
 
 void  rtos_update_waitingTime(){
 	for(int i=0;i<OS_Control.No_Activated_tasks;i++){
@@ -346,9 +413,45 @@ OS_State_ID RTOS_AquireMutex(Mutex_ref *Mutex , Task_ref *next_task)
 		Mutex->Current_user = next_task;
 	}else{
 		if(Mutex->Next_user == NULL){
-			Mutex->Next_user = next_task;
-			next_task->Task_State = suspend;
-			rtos_SVC_Set(SVC_terminatetask);
+
+			// <!TODO Deadlock Solution!>
+			//Deadlock avoidance by Stopping a task from Aqiring more than one Mutex
+			for(int i=0;i<NumOfAquiredTasks;i++){
+				//Check if the next task is already Acquiring one or not
+				if(next_task == AquiredTasks[i]){
+
+					return DeadLOCK_Avoidance;
+
+				}
+			}
+
+			if(Mutex->priority_inheriting.state  == priority_inheritance_enable){
+
+
+				//change the priority of the current task due to inheritance
+				if(next_task->priority < Mutex->Current_user->priority){
+					Mutex->priority_inheriting.C_task_Old_priority = Mutex->Current_user->priority;
+					Mutex->priority_inheriting.C_task_inherited_priority = next_task->priority ;
+					Mutex->Current_user->priority = Mutex->priority_inheriting.C_task_inherited_priority ;
+				}
+
+			}
+
+			//Setting Current and next task for this Mutex based on priority
+			if(Mutex->Current_user->priority > next_task->priority){ //P(next task) > p(current task)
+
+				Mutex->Next_user = Mutex->Current_user;
+				Mutex->Current_user = next_task;
+				next_task->Task_State = suspend ;
+				rtos_SVC_Set(SVC_terminatetask);
+
+			}else{ //P(next task) < p(current task)
+				Mutex->Next_user = next_task;
+				next_task->Task_State = suspend ;
+				rtos_SVC_Set(SVC_terminatetask);
+			}
+
+
 
 		}
 		else
@@ -358,16 +461,52 @@ OS_State_ID RTOS_AquireMutex(Mutex_ref *Mutex , Task_ref *next_task)
 
 	}
 
+	//Add task to array for acquired tasks
+	for(int i=0;i<NumOfAquiredTasks;i++){
+		if(AquiredTasks[i]== NULL){
+			AquiredTasks[i] = next_task ;
+			break;
+		}
+	}
+
 	return no_error;
 }
 void RTOS_ReleaseMutex(Mutex_ref *Mutex){
-	if(Mutex->Current_user != NULL){
+	// check if the acquiring  was done correctly and the current task is already acquire this Mutex
+	if(Mutex->Current_user == OS_Control.Current_task || Mutex->Next_user == OS_Control.Current_task ){
+		if(Mutex->Current_user != NULL){
 
-		Mutex->Current_user = Mutex->Next_user;
-		Mutex->Next_user = NULL;
-		Mutex->Current_user->Task_State =waiting;
-		rtos_SVC_Set(SVC_Activatetask);
+			//Remove task from array for acquired tasks
+			for(int i=0;i<NumOfAquiredTasks;i++){
+				if(AquiredTasks[i] == OS_Control.Current_task ){
+					AquiredTasks[i]= NULL;
+					break;
+				}
+			}
 
+			//Restore the priority of the current task before
+			if((Mutex->priority_inheriting.state ==priority_inheritance_enable) && (Mutex->priority_inheriting.C_task_Old_priority != Mutex->priority_inheriting.C_task_inherited_priority)){
+				Mutex->Current_user->priority = Mutex->priority_inheriting.C_task_Old_priority ;
+				Mutex->Current_user = Mutex->Next_user;
+				Mutex->Next_user = NULL;
+				//Reset the priority
+				if(Mutex->Current_user != NULL){
+					Mutex->priority_inheriting.C_task_Old_priority = Mutex->Current_user->priority;
+					Mutex->priority_inheriting.C_task_inherited_priority = Mutex->Current_user->priority;
+				}
+				Mutex->Current_user->Task_State =waiting;
+				rtos_SVC_Set(SVC_Activatetask);
+			}else{ // in case of there is no inheritance
+				Mutex->Current_user = Mutex->Next_user;
+				Mutex->Next_user = NULL;
+				Mutex->Current_user->Task_State =waiting;
+				rtos_SVC_Set(SVC_Activatetask);
+			}
+
+
+		}
+	}else{
+		//<! the Current task is not Acquire this Mutex!>
 	}
 }
 

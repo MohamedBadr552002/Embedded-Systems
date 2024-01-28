@@ -1,7 +1,7 @@
 # This Real-Time Operating System Was designed based on:
 * Online Static Priority
 * Pre-emtive 
-* Round-robin Schedualing Time-shared Algorithm
+* Round-robin Scheduling Time-shared Algorithm
 
 #### Which mean that scheduler Makes Decision about task execution and Priorities During Run time also the higher Priority task interrupt the lower one .
 #### About the time shared Algorithm between the same Priority tasks the Round-Robin Algorithm take the responsibilty.

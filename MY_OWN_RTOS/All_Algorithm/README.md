@@ -27,6 +27,22 @@
 #### In case of Suspended for all Tasks the OS Execute the idle task which led the CPU to be in Sleep mode and waiting for event to start up again to reduce the consumed power.
 ![Screenshot 2023-12-16 233938](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/392e8739-d4e8-4e18-9121-3bc00c5ea7de)
 
+# Schedule Table Updating
+### This Os support Bubble and Merge Sorting Algorithms for updating the scheduale of tasks
+### But after Analysis and Measurments of Performance found that Bubble sort is more efficient.
+#### Here is Test operation for 8 Tasks not including idle task tasted with ordered Priority meanning the highest created first and Reversed Priority Meanning the lowest Created First Noted that any test case was updating just once before the Stating of OS .
+
+## Bubble Sorting 
+![BubbleorderedPriority](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/8cd2b8f9-6084-420e-aa27-1143999a3266)
+
+![bubbleReversePeriority](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/faaa33ab-5dee-4ce4-beb1-dbe6760ef427)
+
+## Merge Sorting 
+![MegeOrederedPriority](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/b9e550d5-ee3f-4577-9ab1-27ba5dc240b2)
+
+![mergeReversePriority](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/1ade0609-f618-4fa9-8b0a-8eb7fb66f5fb)
+
+
 
 # Tasks Synchronization
 #### This OS Support Mutex across making one task to acquire a Specific Mutex also one Task can be in waiting state for Relesing of the mutex.

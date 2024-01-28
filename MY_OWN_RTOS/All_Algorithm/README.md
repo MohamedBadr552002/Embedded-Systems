@@ -47,8 +47,8 @@
 # Tasks Synchronization
 #### This OS Support Mutex across making one task to acquire a Specific Mutex also one Task can be in waiting state for Relesing of the mutex.
 ![Screenshot 2024-01-24 181135](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/adce5bc3-d6b6-4e5c-a06e-af36f76b89b5)
-#### `But this led to Priority Inversion Problem !!`
-## Priority Inversion 
+####   `But this led to Priority Inversion Problem !!`
+##  Priority Inversion 
 the problem happen when low priority task holds a resource required by high priority task leading to delay the execution of the highest one.
 the Algorithim Uses __`Priority Inheritance Solution `__
 

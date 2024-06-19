@@ -75,6 +75,19 @@
 
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/2e9747fe-04da-490b-b9dd-fb57fb62d267)
 
+#### Error Frame
+
+* Special message that a CAN node sends on the bus when it detects an error in the received message or during transmission.
+* the error frame consists of two parts:
+  * `The Error Flag:` is a dominant bit that indicates that start of an Error Frame.
+  * `Error Delimiter:` is a recessive bit that indicates the end of frame.
+  * In between the frame contains six or more bits of dominant error signaling. 
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/4c1112aa-f23d-4112-88a4-fb20aff57d28)
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/85edeb9d-df74-4be5-b41a-1215ab72bae6)
+
+
 #### Overload Frame
 
 * Used to notify all nodes on the bus that the transmitting node is currently over loaded with the data and unable to process any new messages.

@@ -69,7 +69,17 @@
 
 
 #### Remote Frame
+
 * CAN message that is used to request data from another node on the network.
 * It does not contain any data payload but instead, it contains an id that specifies which node to request data from.
 
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/2e9747fe-04da-490b-b9dd-fb57fb62d267)
+
+#### Overload Frame
+
+* Used to notify all nodes on the bus that the transmitting node is currently over loaded with the data and unable to process any new messages.
+*  An Overload frame indicates that its transmitter require delay before receiving next data or remote frame The overload flag consists of six dominant bits. The overload delimiter consists of eight recessive bits. 
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/0da74759-4938-4899-bbe8-6c2884f5cf9e)
+
+

@@ -85,8 +85,18 @@
 
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/4c1112aa-f23d-4112-88a4-fb20aff57d28)
 
+* Acknowledgment error: When node transmitting a message does not receive an acknowledgment bit from the receiving node, indicated that the message wan not successfully recieved.
+
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/85edeb9d-df74-4be5-b41a-1215ab72bae6)
 
+##### CAN error detection and fault confinement
+* when the node detects an eror on the CAN bus, it increments its error counter and transmits an error flag.
+* It the error counter exceeds a certain threshold, the node enters an error `Active state` where it countinues to transmit error flags but does not transmit any message.
+* If the error Counter continues to increase, the node enter an error `Passive state` where it no longer transmits any messages or error flags, Instead it listens to the bus to determine when it can resume normal operation.
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/f60d37f6-866f-4d90-8c12-03f1085e138d)
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/946702db-e0f9-4845-839d-0d91d3af59ce)
 
 #### Overload Frame
 
@@ -104,3 +114,16 @@
 * Logic 0 known as a Dominant bit -> The differntial is Maximum
 
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/684c2da2-f24b-4d8b-bb94-755c5c0df058)
+
+#### CAN bit timing calculation
+* To determine the values for the bit timing register (BTR)
+* Calculated based on the desired bit rate and the oscillator frequency of the CAN controller.
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/89b9df6d-113a-42f1-880e-c0b4266f1f65)
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/66f15343-d259-4bad-bc0e-888abee4faaf)
+
+
+* The values for Sync_Seg, Prop_Seg, Phase_Seg1 and Phase_Seg2 are typically chosen based on the requirments of the CAN protocal being used.
+
+ ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/fb26dc88-8d2c-4c01-9a8c-cde357c71758)

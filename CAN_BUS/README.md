@@ -127,3 +127,15 @@
 * The values for Sync_Seg, Prop_Seg, Phase_Seg1 and Phase_Seg2 are typically chosen based on the requirments of the CAN protocal being used.
 
  ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/fb26dc88-8d2c-4c01-9a8c-cde357c71758)
+
+### CAN-FD 
+That used to increase the data rate up to 5 Mbps and allows messages up to 64 bytes, also due to increase demand for higher bandwidth 
+`What are the new feature in CAN-FD?`
+* Increase data rate
+* Using more effiecient frame format
+* Have multiple data rate on the same bus
+
+There's No Remote frame in CAN-FD.
+the arbritration field remains the same as CAN 2.0.
+
+![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/1c87a8c0-7f84-420e-bd7f-ae3aded7cf01)

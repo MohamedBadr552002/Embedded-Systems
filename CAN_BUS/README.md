@@ -139,3 +139,14 @@ There's No Remote frame in CAN-FD.
 the arbritration field remains the same as CAN 2.0.
 
 ![image](https://github.com/MohamedBadr552002/Embedded-Systems/assets/108628976/1c87a8c0-7f84-420e-bd7f-ae3aded7cf01)
+
+
+### Time triggered CAN (TTCAN)
+* It's extension of Basic CAN Developed to meet the real-time and deterministic communication requirements of safety-critical applications.
+* Time-triggered nodes operate in a synchronous manner, while the event-triggered nodes operate in an asynchronous manner.
+
+#### Time Triggered Vs Event Triggered
+* Time Triggered Communication: All nodes on the bus know when they can transmit their messages. this is achived through a time-triggered communication schedule, which defines the time slots during which each node is allowed to transmit its messages.
+
+
+* Event-triggered Communication is used for low priority messages, Event-triggered messages are transmitted when the bus is `idle`, and they do not interface with the time-triggered communication schedule. 
